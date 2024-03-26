@@ -1,17 +1,19 @@
 package com.example.primesservice.service;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.stream.Collectors;
 import java.time.temporal.ChronoUnit;
 
 
-
+@Service
 public class TokenService {
     private final JwtEncoder encoder;
     public TokenService(JwtEncoder encoder) {
