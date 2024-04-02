@@ -1,6 +1,7 @@
 package com.example.primesservice.service;
 
 import com.example.primesservice.model.Customer;
+import com.example.primesservice.repository.AuthenticationDBRepository;
 import com.example.primesservice.repository.IAuthenticationRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,14 +23,14 @@ import java.io.IOException;
 
 @Service
 public class AuthenticationService implements IAuthenticationService , UserDetailsService {
-    IAuthenticationRepository authenticationRepository;
+    AuthenticationDBRepository authenticationRepository;
 
-    public AuthenticationService(IAuthenticationRepository authenticationRepository) {
+    public AuthenticationService(AuthenticationDBRepository authenticationRepository) {
         this.authenticationRepository = authenticationRepository;
     }
 
     @Override
-    public boolean register(Customer customer) throws IOException {
+    public Customer register(Customer customer) throws IOException {
         BCryptPasswordEncoder bc = new BCryptPasswordEncoder();
         String passwordEncoded = bc.encode(customer.getPassword());
         customer.setPassword(passwordEncoded);
@@ -53,7 +54,7 @@ public class AuthenticationService implements IAuthenticationService , UserDetai
                     .withUsername(username)
                     .password(customer.getPassword())
                     .build();
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -78,7 +79,7 @@ public class AuthenticationService implements IAuthenticationService , UserDetai
         }
 
         @PostMapping("/register")
-        public boolean register(@RequestBody Customer customer) {
+        public Customer register(@RequestBody Customer customer) {
             try {
                 return authenticationService.register(customer);
             } catch (IOException e) {
