@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "spring.devtools.restart.poll-interval",
+      "type": "java.lang.String",
+      "description": "Description for spring.devtools.restart.poll-interval."
+  }
+] }
